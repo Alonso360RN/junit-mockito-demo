@@ -1,9 +1,12 @@
 package com.alonso360rn.blockingexample.controllers;
 
 import com.alonso360rn.blockingexample.BaseTest;
+import com.alonso360rn.blockingexample.models.CreateUserRequest;
 import com.alonso360rn.blockingexample.services.UsersService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -36,8 +39,8 @@ class UsersControllerTest extends BaseTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].name").value("John Wick"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].address").value("suite 1 street 1, city 1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[1].id").value("2"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[2].name").value("Obi Wan Kenobi"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[3].address").value("suite 2 street 2, city 2"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[1].name").value("Obi Wan Kenobi"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[1].address").value("suite 2 street 2, city 2"));
 
         Mockito.verify(usersService, Mockito.times(1)).getUsers();
     }
@@ -45,16 +48,25 @@ class UsersControllerTest extends BaseTest {
     @Test
     void shouldCreateUser() throws Exception {
 
+        final CreateUserRequest createUserRequest = getCreateUserRequest();
+
         Mockito.when(usersService.createUser(Mockito.any()))
                 .thenReturn(getUserFromModels());
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/users/")
                 .contentType("application/json")
-                .content(OBJECT_MAPPER.writeValueAsString(getCreateUserRequest())))
+                .content(OBJECT_MAPPER.writeValueAsString(createUserRequest)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(201))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.id").value("1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.name").value("John Wick"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.address").value("suite 1 street 1, city 1"));
+
+        ArgumentCaptor<CreateUserRequest> createUserRequestCaptor = ArgumentCaptor.forClass(CreateUserRequest.class);
+
+        Mockito.verify(usersService, Mockito.times(1))
+                .createUser(createUserRequestCaptor.capture());
+
+        Assertions.assertEquals("John Wick", createUserRequestCaptor.getValue().getName());
     }
 }
