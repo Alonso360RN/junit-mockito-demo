@@ -1,9 +1,9 @@
-package com.alonso360rn.services.facades;
+package com.alonso360rn.blockingexample.services.facades;
 
 import com.alonso360rn.blockingexample.configuration.EnvironmentConfiguration;
 import com.alonso360rn.blockingexample.services.facades.UsersFacade;
 import com.alonso360rn.blockingexample.services.facades.models.User;
-import com.alonso360rn.services.BaseTest;
+import com.alonso360rn.blockingexample.BaseTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;

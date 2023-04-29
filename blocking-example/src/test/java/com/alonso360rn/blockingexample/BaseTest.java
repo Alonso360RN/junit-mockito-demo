@@ -1,4 +1,4 @@
-package com.alonso360rn.services;
+package com.alonso360rn.blockingexample;
 
 import com.alonso360rn.blockingexample.models.CreateUserAddress;
 import com.alonso360rn.blockingexample.models.CreateUserCompany;
@@ -103,6 +103,33 @@ public abstract class BaseTest {
                 .phone("12345678")
                 .username("john_wick")
                 .website("website.com")
+                .build();
+    }
+
+    protected List<com.alonso360rn.blockingexample.models.User> getUsersListFromModels() {
+
+        final com.alonso360rn.blockingexample.models.User user1 = com.alonso360rn.blockingexample.models.User.builder()
+                .address("suite 1 street 1, city 1")
+                .id("1")
+                .name("John Wick")
+                .build();
+
+
+        final com.alonso360rn.blockingexample.models.User user2 = com.alonso360rn.blockingexample.models.User.builder()
+                .address("suite 2 street 2, city 2")
+                .id("2")
+                .name("Obi Wan Kenobi")
+                .build();
+
+        return List.of(user1, user2);
+    }
+
+    protected com.alonso360rn.blockingexample.models.User getUserFromModels() {
+
+        return com.alonso360rn.blockingexample.models.User.builder()
+                .address("suite 1 street 1, city 1")
+                .id("1")
+                .name("John Wick")
                 .build();
     }
 }

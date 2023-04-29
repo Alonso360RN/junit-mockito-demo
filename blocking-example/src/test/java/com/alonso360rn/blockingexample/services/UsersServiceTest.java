@@ -1,8 +1,8 @@
-package com.alonso360rn.services;
+package com.alonso360rn.blockingexample.services;
 
 import com.alonso360rn.blockingexample.models.User;
-import com.alonso360rn.blockingexample.services.UsersService;
 import com.alonso360rn.blockingexample.services.facades.UsersFacade;
+import com.alonso360rn.blockingexample.BaseTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
